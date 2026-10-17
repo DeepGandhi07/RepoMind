@@ -118,9 +118,6 @@ def fetch_python_files(repo_url: str) -> list[dict]:
         )
 
         content_response.raise_for_status()
-        print("URL:", content_response.url)
-        print("Status:", content_response.status_code)
-        print("Response:", content_response.text[:1000])
         content_data = content_response.json()
 
         if content_data.get("encoding") != "base64":

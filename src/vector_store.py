@@ -1,5 +1,5 @@
+import re
 from pathlib import Path
-
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -42,12 +42,11 @@ def index_code_chunks(
     chunks: list[Document],
     vector_store: Chroma,
 ) -> int:
-    """Index chunks without adding duplicate IDs on repeated runs."""
+    """Insert new chunks and update existing chunks when their content changes."""
 
     if not chunks:
         return 0
 
-    # Use source path and character offset to identify each chunk.
     ids = []
 
     for chunk in chunks:
@@ -55,26 +54,48 @@ def index_code_chunks(
         start_index = chunk.metadata.get("start_index", 0)
         ids.append(f"{source}:{start_index}")
 
-    # Only insert IDs that are not already present.
-    existing = vector_store.get(ids=ids, include=[])
+    existing = vector_store.get(
+        ids=ids,
+        include=["documents", "metadatas"],
+    )
 
-    existing_ids = set(existing["ids"])
+    existing_by_id = {
+        chunk_id: {
+            "document": document,
+            "metadata": metadata,
+        }
+        for chunk_id, document, metadata in zip(
+            existing["ids"],
+            existing["documents"],
+            existing["metadatas"],
+        )
+    }
 
-    new_documents = []
-    new_ids = []
+    changed_chunks = []
+    changed_ids = []
 
     for chunk, chunk_id in zip(chunks, ids):
-        if chunk_id not in existing_ids:
-            new_documents.append(chunk)
-            new_ids.append(chunk_id)
+        existing_chunk = existing_by_id.get(chunk_id)
 
-    if new_documents:
+        if existing_chunk is None:
+            changed_chunks.append(chunk)
+            changed_ids.append(chunk_id)
+            continue
+
+        old_document = existing_chunk["document"]
+        old_metadata = existing_chunk["metadata"] or {}
+
+        if old_document != chunk.page_content or old_metadata != chunk.metadata:
+            changed_chunks.append(chunk)
+            changed_ids.append(chunk_id)
+
+    if changed_chunks:
         vector_store.add_documents(
-            documents=new_documents,
-            ids=new_ids,
+            documents=changed_chunks,
+            ids=changed_ids,
         )
 
-    return len(new_documents)
+    return len(changed_chunks)
 
 
 def search_code(
@@ -82,7 +103,7 @@ def search_code(
     vector_store: Chroma,
     k: int = 5,
 ) -> list[Document]:
-    """Find the code chunks most relevant to a question."""
+    """Retrieve semantic candidates and rerank them using code identifiers."""
 
     if not query.strip():
         raise ValueError("Search query cannot be empty.")
@@ -90,4 +111,24 @@ def search_code(
     if k < 1:
         raise ValueError("k must be at least 1.")
 
-    return vector_store.similarity_search(query, k=k)
+    # Retrieve a wider candidate pool than the final result count.
+    candidates = vector_store.similarity_search(query, k=max(k * 4, 20))
+
+    # Extract meaningful identifier-like tokens from the question.
+    tokens = re.findall(r"[A-Za-z_][A-Za-z0-9_]*", query)
+    query_terms = {token.lower() for token in tokens if len(token) > 2}
+
+    def score(document: Document) -> int:
+        content = document.page_content
+        content_lower = content.lower()
+        source = document.metadata.get("source", "").lower()
+
+        # Prefer exact identifiers and matching source paths.
+        identifier_matches = sum(1 for token in query_terms if token in content_lower)
+        path_matches = sum(1 for token in query_terms if token in source)
+
+        return identifier_matches + path_matches * 3
+
+    ranked = sorted(candidates, key=score, reverse=True)
+
+    return ranked[:k]
