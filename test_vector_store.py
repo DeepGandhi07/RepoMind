@@ -26,8 +26,15 @@ def main():
     vector_store = get_vector_store(embedding_model)
 
     print("\nIndexing code chunks...")
-    added = index_code_chunks(chunks, vector_store)
-    print(f"New chunks indexed: {added}")
+    current_sources = {file["path"] for file in files}
+
+    new_chunks = index_code_chunks(
+        chunks,
+        vector_store,
+        current_sources=current_sources,
+    )
+
+    print(f"New or updated chunks indexed: {new_chunks}")
 
     print("\nSearching the codebase...")
     query = "How does HTTP authentication work?"

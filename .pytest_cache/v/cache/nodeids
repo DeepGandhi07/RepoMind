@@ -1,0 +1,8 @@
+[
+  "test_index_sync.py::test_changed_file_removes_obsolete_chunks",
+  "test_index_sync.py::test_deleted_file_chunks_are_removed",
+  "test_search.py::test_authentication_query_prefers_auth_file",
+  "test_search.py::test_empty_query_raises_error",
+  "test_search.py::test_invalid_k_raises_error",
+  "test_search.py::test_returns_requested_number_of_results"
+]
