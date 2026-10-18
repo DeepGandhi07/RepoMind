@@ -1,8 +1,24 @@
 [
+  "test_answer_generator.py::test_context_falls_back_when_line_metadata_missing",
+  "test_answer_generator.py::test_context_handles_multiple_documents",
+  "test_answer_generator.py::test_context_includes_file_and_line_range",
   "test_index_sync.py::test_changed_file_removes_obsolete_chunks",
   "test_index_sync.py::test_deleted_file_chunks_are_removed",
   "test_search.py::test_authentication_query_prefers_auth_file",
   "test_search.py::test_empty_query_raises_error",
   "test_search.py::test_invalid_k_raises_error",
-  "test_search.py::test_returns_requested_number_of_results"
+  "test_search.py::test_returns_requested_number_of_results",
+  "tests/test_answer_generator.py::test_context_falls_back_when_line_metadata_missing",
+  "tests/test_answer_generator.py::test_context_handles_multiple_documents",
+  "tests/test_answer_generator.py::test_context_includes_file_and_line_range",
+  "tests/test_citation_validator.py::test_citation_outside_retrieved_range_is_invalid",
+  "tests/test_citation_validator.py::test_missing_citations_are_flagged",
+  "tests/test_citation_validator.py::test_unknown_file_is_invalid",
+  "tests/test_citation_validator.py::test_valid_citation",
+  "tests/test_index_sync.py::test_changed_file_removes_obsolete_chunks",
+  "tests/test_index_sync.py::test_deleted_file_chunks_are_removed",
+  "tests/test_search.py::test_authentication_query_prefers_auth_file",
+  "tests/test_search.py::test_empty_query_raises_error",
+  "tests/test_search.py::test_invalid_k_raises_error",
+  "tests/test_search.py::test_returns_requested_number_of_results"
 ]

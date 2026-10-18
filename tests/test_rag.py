@@ -22,8 +22,19 @@ def main():
     print(result["answer"])
 
     print("\n=== Retrieved Sources ===")
+
     for source in result["sources"]:
-        print(f"- {source['file']} " f"(character offset: {source['start_index']})")
+        file_path = source["file"]
+        start_line = source.get("start_line")
+        end_line = source.get("end_line")
+
+        if start_line is not None and end_line is not None:
+            print(f"- {file_path}:{start_line}-{end_line}")
+        else:
+            print(f"- {file_path} (line metadata unavailable)")
+
+    print("\n=== Citation Validation ===")
+    print(result["citation_validation"])
 
 
 if __name__ == "__main__":
