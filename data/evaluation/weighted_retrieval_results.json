@@ -1,0 +1,623 @@
+{
+  "1.0": {
+    "summary": {
+      "hit_rate_at_5": 0.9583333333333334,
+      "mean_recall_at_5": 0.9583333333333334,
+      "all_required_files_rate": 0.9583333333333334,
+      "mean_reciprocal_rank": 0.8819444444444444,
+      "failed_questions": [
+        "R15"
+      ]
+    },
+    "results": [
+      {
+        "id": "R01",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R02",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R03",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R04",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R05",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.3333333333333333,
+        "missing": []
+      },
+      {
+        "id": "R06",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R07",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R08",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R09",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R10",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R11",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R12",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R13",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R14",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R15",
+        "hit": 0,
+        "recall": 0.0,
+        "all_required": 0,
+        "mrr": 0.0,
+        "missing": [
+          "src/requests/structures.py"
+        ]
+      },
+      {
+        "id": "R16",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R17",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.3333333333333333,
+        "missing": []
+      },
+      {
+        "id": "R18",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R19",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R20",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R21",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.5,
+        "missing": []
+      },
+      {
+        "id": "R22",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R23",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R24",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      }
+    ]
+  },
+  "2.0": {
+    "summary": {
+      "hit_rate_at_5": 0.9583333333333334,
+      "mean_recall_at_5": 0.9583333333333334,
+      "all_required_files_rate": 0.9583333333333334,
+      "mean_reciprocal_rank": 0.8611111111111112,
+      "failed_questions": [
+        "R15"
+      ]
+    },
+    "results": [
+      {
+        "id": "R01",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R02",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R03",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R04",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R05",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.3333333333333333,
+        "missing": []
+      },
+      {
+        "id": "R06",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R07",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R08",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R09",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R10",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R11",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R12",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R13",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R14",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R15",
+        "hit": 0,
+        "recall": 0.0,
+        "all_required": 0,
+        "mrr": 0.0,
+        "missing": [
+          "src/requests/structures.py"
+        ]
+      },
+      {
+        "id": "R16",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.5,
+        "missing": []
+      },
+      {
+        "id": "R17",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.3333333333333333,
+        "missing": []
+      },
+      {
+        "id": "R18",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R19",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R20",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R21",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.5,
+        "missing": []
+      },
+      {
+        "id": "R22",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R23",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R24",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      }
+    ]
+  },
+  "3.0": {
+    "summary": {
+      "hit_rate_at_5": 0.9583333333333334,
+      "mean_recall_at_5": 0.9583333333333334,
+      "all_required_files_rate": 0.9583333333333334,
+      "mean_reciprocal_rank": 0.8125,
+      "failed_questions": [
+        "R13"
+      ]
+    },
+    "results": [
+      {
+        "id": "R01",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R02",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R03",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R04",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R05",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.3333333333333333,
+        "missing": []
+      },
+      {
+        "id": "R06",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R07",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R08",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R09",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R10",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R11",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R12",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R13",
+        "hit": 0,
+        "recall": 0.0,
+        "all_required": 0,
+        "mrr": 0.0,
+        "missing": [
+          "src/requests/exceptions.py"
+        ]
+      },
+      {
+        "id": "R14",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.5,
+        "missing": []
+      },
+      {
+        "id": "R15",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.3333333333333333,
+        "missing": []
+      },
+      {
+        "id": "R16",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.5,
+        "missing": []
+      },
+      {
+        "id": "R17",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.3333333333333333,
+        "missing": []
+      },
+      {
+        "id": "R18",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R19",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R20",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R21",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 0.5,
+        "missing": []
+      },
+      {
+        "id": "R22",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R23",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      },
+      {
+        "id": "R24",
+        "hit": 1,
+        "recall": 1.0,
+        "all_required": 1,
+        "mrr": 1.0,
+        "missing": []
+      }
+    ]
+  }
+}

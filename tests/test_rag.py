@@ -35,6 +35,17 @@ def main():
 
     print("\n=== Citation Validation ===")
     print(result["citation_validation"])
+    print(result["citation_coverage"])
+
+    print("\n=== Semantic Grounding ===")
+    print("Overall status:", result["grounding"]["overall_status"])
+
+    for claim in result["grounding"]["claims"]:
+        print(f"\nClaim: {claim['claim']}")
+        print(f"Status: {claim['status']}")
+        print(f"Evidence: {claim['evidence']}")
+        print(f"Reason: {claim['reason']}")
+        print(f"Citations: {claim['citations']}")
 
 
 if __name__ == "__main__":

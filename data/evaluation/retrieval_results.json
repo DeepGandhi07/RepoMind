@@ -1,0 +1,475 @@
+{
+  "summary": {
+    "dataset_size": 24,
+    "k": 5,
+    "hit_rate_at_5": 1,
+    "mean_recall_at_5": 1.0,
+    "mean_reciprocal_rank": 0.9201388888888888,
+    "failed_questions": []
+  },
+  "results": [
+    {
+      "id": "R01",
+      "question": "Where is HTTPBasicAuth implemented, and how does it set the Authorization header?",
+      "expanded_query": "Where is HTTPBasicAuth implemented, and how does it set the Authorization header?",
+      "expected_sources": [
+        "src/requests/auth.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/auth.py",
+        "src/requests/sessions.py",
+        "src/requests/auth.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R02",
+      "question": "How does HTTPProxyAuth differ from HTTPBasicAuth?",
+      "expanded_query": "How does HTTPProxyAuth differ from HTTPBasicAuth?",
+      "expected_sources": [
+        "src/requests/auth.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/auth.py",
+        "src/requests/auth.py",
+        "src/requests/models.py",
+        "src/requests/sessions.py",
+        "src/requests/models.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R03",
+      "question": "How does HTTPDigestAuth maintain authentication state across threads?",
+      "expanded_query": "How does HTTPDigestAuth maintain authentication state across threads?",
+      "expected_sources": [
+        "src/requests/auth.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/auth.py",
+        "src/requests/auth.py",
+        "src/requests/sessions.py",
+        "src/requests/auth.py",
+        "src/requests/auth.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R04",
+      "question": "How does Requests accept an auth parameter on session requests?",
+      "expanded_query": "How does Requests accept an auth parameter on session requests?",
+      "expected_sources": [
+        "src/requests/sessions.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/sessions.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py",
+        "src/requests/auth.py",
+        "src/requests/models.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R05",
+      "question": "How is a Session.request call prepared and sent?",
+      "expanded_query": "How is a Session.request call prepared and sent?",
+      "expected_sources": [
+        "src/requests/sessions.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/models.py",
+        "src/requests/models.py",
+        "src/requests/api.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 0.25,
+      "missing_sources": []
+    },
+    {
+      "id": "R06",
+      "question": "Where is PreparedRequest implemented, and how are request headers and body prepared?",
+      "expanded_query": "Where is PreparedRequest implemented, and how are request headers and body prepared?",
+      "expected_sources": [
+        "src/requests/models.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/models.py",
+        "src/requests/models.py",
+        "src/requests/_types.py",
+        "src/requests/models.py",
+        "src/requests/models.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R07",
+      "question": "How does a Response expose its content and JSON parsing behavior?",
+      "expanded_query": "How does a Response expose its content and JSON parsing behavior?",
+      "expected_sources": [
+        "src/requests/models.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/models.py",
+        "src/requests/models.py",
+        "src/requests/models.py",
+        "src/requests/models.py",
+        "src/requests/sessions.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R08",
+      "question": "How does Requests handle redirects during a session request?",
+      "expanded_query": "How does Requests handle redirects during a session request?",
+      "expected_sources": [
+        "src/requests/sessions.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/sessions.py",
+        "src/requests/sessions.py",
+        "src/requests/api.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R09",
+      "question": "How are cookies extracted from responses and persisted in sessions?",
+      "expanded_query": "How are cookies extracted from responses and persisted in sessions?",
+      "expected_sources": [
+        "src/requests/cookies.py",
+        "src/requests/sessions.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/sessions.py",
+        "src/requests/cookies.py",
+        "src/requests/cookies.py",
+        "src/requests/sessions.py",
+        "src/requests/models.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R10",
+      "question": "How are request timeouts passed to the transport adapter?",
+      "expanded_query": "How are request timeouts passed to the transport adapter?",
+      "expected_sources": [
+        "src/requests/adapters.py",
+        "src/requests/sessions.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/adapters.py",
+        "src/requests/adapters.py",
+        "src/requests/adapters.py",
+        "src/requests/adapters.py",
+        "src/requests/sessions.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R11",
+      "question": "How does Requests configure TLS certificate verification?",
+      "expanded_query": "How does Requests configure TLS certificate verification?",
+      "expected_sources": [
+        "src/requests/adapters.py",
+        "src/requests/sessions.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/sessions.py",
+        "src/requests/adapters.py",
+        "src/requests/sessions.py",
+        "src/requests/adapters.py",
+        "src/requests/adapters.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R12",
+      "question": "How does streaming affect response content consumption?",
+      "expanded_query": "How does streaming affect response content consumption?",
+      "expected_sources": [
+        "src/requests/models.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/models.py",
+        "src/requests/models.py",
+        "src/requests/models.py",
+        "src/requests/models.py",
+        "src/requests/models.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R13",
+      "question": "Where are Requests exception classes defined, and how are they organized?",
+      "expanded_query": "Where are Requests exception classes defined, and how are they organized?",
+      "expected_sources": [
+        "src/requests/exceptions.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/exceptions.py",
+        "src/requests/models.py",
+        "src/requests/api.py",
+        "src/requests/__init__.py",
+        "src/requests/exceptions.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R14",
+      "question": "How are response hooks registered and dispatched?",
+      "expanded_query": "How are response hooks registered and dispatched?",
+      "expected_sources": [
+        "src/requests/hooks.py",
+        "src/requests/sessions.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/hooks.py",
+        "src/requests/models.py",
+        "src/requests/hooks.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R15",
+      "question": "How does Requests represent case-insensitive HTTP headers?",
+      "expanded_query": "How does Requests represent case-insensitive HTTP headers? CaseInsensitiveDict lowercase keys __getitem__ __setitem__",
+      "expected_sources": [
+        "src/requests/structures.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/structures.py",
+        "src/requests/models.py",
+        "src/requests/utils.py",
+        "src/requests/utils.py",
+        "src/requests/models.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R16",
+      "question": "How are query parameters encoded into a request URL?",
+      "expanded_query": "How are query parameters encoded into a request URL?",
+      "expected_sources": [
+        "src/requests/models.py",
+        "src/requests/utils.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/models.py",
+        "src/requests/sessions.py",
+        "src/requests/models.py",
+        "src/requests/utils.py",
+        "src/requests/adapters.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R17",
+      "question": "How is a JSON payload serialized when preparing a request?",
+      "expanded_query": "How is a JSON payload serialized when preparing a request?",
+      "expected_sources": [
+        "src/requests/models.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/api.py",
+        "src/requests/__init__.py",
+        "src/requests/models.py",
+        "src/requests/api.py",
+        "src/requests/models.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 0.3333333333333333,
+      "missing_sources": []
+    },
+    {
+      "id": "R18",
+      "question": "Where are HTTP status code constants defined?",
+      "expanded_query": "Where are HTTP status code constants defined?",
+      "expected_sources": [
+        "src/requests/status_codes.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/status_codes.py",
+        "src/requests/models.py",
+        "src/requests/models.py",
+        "src/requests/models.py",
+        "src/requests/models.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R19",
+      "question": "How does Requests handle proxy configuration from the environment?",
+      "expanded_query": "How does Requests handle proxy configuration from the environment?",
+      "expected_sources": [
+        "src/requests/sessions.py",
+        "src/requests/utils.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/utils.py",
+        "src/requests/utils.py",
+        "src/requests/utils.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R20",
+      "question": "How does HTTPAdapter configure connection pooling and send requests?",
+      "expanded_query": "How does HTTPAdapter configure connection pooling and send requests?",
+      "expected_sources": [
+        "src/requests/adapters.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/adapters.py",
+        "src/requests/adapters.py",
+        "src/requests/adapters.py",
+        "src/requests/adapters.py",
+        "src/requests/adapters.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R21",
+      "question": "How does a Session mount a transport adapter for a URL prefix?",
+      "expanded_query": "How does a Session mount a transport adapter for a URL prefix?",
+      "expected_sources": [
+        "src/requests/sessions.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/adapters.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 0.5,
+      "missing_sources": []
+    },
+    {
+      "id": "R22",
+      "question": "How does Requests merge session-level settings with request-level settings?",
+      "expanded_query": "How does Requests merge session-level settings with request-level settings?",
+      "expected_sources": [
+        "src/requests/sessions.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/sessions.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py",
+        "src/requests/cookies.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R23",
+      "question": "How does Requests represent the history of redirects on a response?",
+      "expanded_query": "How does Requests represent the history of redirects on a response?",
+      "expected_sources": [
+        "src/requests/models.py",
+        "src/requests/sessions.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/sessions.py",
+        "src/requests/sessions.py",
+        "src/requests/models.py",
+        "src/requests/sessions.py",
+        "src/requests/sessions.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    },
+    {
+      "id": "R24",
+      "question": "How does HTTPDigestAuth respond to a server's digest authentication challenge?",
+      "expanded_query": "How does HTTPDigestAuth respond to a server's digest authentication challenge?",
+      "expected_sources": [
+        "src/requests/auth.py"
+      ],
+      "retrieved_sources": [
+        "src/requests/auth.py",
+        "src/requests/sessions.py",
+        "src/requests/auth.py",
+        "src/requests/utils.py",
+        "src/requests/auth.py"
+      ],
+      "recall_at_5": 1.0,
+      "hit_at_5": 1,
+      "reciprocal_rank": 1.0,
+      "missing_sources": []
+    }
+  ]
+}

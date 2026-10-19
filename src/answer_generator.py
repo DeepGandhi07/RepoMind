@@ -3,13 +3,24 @@ from pathlib import Path
 from src.citation_validator import validate_citations
 from dotenv import load_dotenv
 from google import genai
-
+from src.grounding_checker import check_answer_grounding
 from src.vector_store import search_code
+from src.citation_validator import (
+    validate_citations,
+    calculate_citation_coverage,
+)
+from src.query_expander import expand_query, should_expand_query
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(PROJECT_ROOT / ".env")
 
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+USE_QUERY_EXPANSION = os.getenv("USE_QUERY_EXPANSION", "true").lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
 
 
 def build_context(documents) -> str:
@@ -50,12 +61,31 @@ def answer_question(
     if k < 1:
         raise ValueError("k must be at least 1.")
 
-    # 1. Retrieve relevant code.
+    # 1. Expand the search query, then retrieve relevant code.
+    retrieval_query = question
+
+    # Always try normal retrieval first.
     documents = search_code(
         query=question,
         vector_store=vector_store,
         k=k,
     )
+    # Expand only when the first results have weak lexical overlap.
+    if USE_QUERY_EXPANSION and should_expand_query(question, documents):
+        expanded_query = expand_query(question)
+
+        # Avoid repeating the same search if expansion failed or returned
+        # no additional terminology.
+        if expanded_query != question:
+            expanded_documents = search_code(
+                query=expanded_query,
+                vector_store=vector_store,
+                k=k,
+            )
+
+            # Use the expanded results only when they are available.
+            if expanded_documents:
+                documents = expanded_documents
 
     if not documents:
         return {
@@ -140,9 +170,19 @@ If appropriate, finish with a short explanation of how the relevant code works.
         sources.append(source_info)
 
     citation_validation = validate_citations(answer, sources)
+    citation_coverage = calculate_citation_coverage(answer)
+
+    grounding = check_answer_grounding(
+        answer=answer,
+        context=context,
+        client=client,
+        model=GEMINI_MODEL,
+    )
 
     return {
         "answer": answer,
         "sources": sources,
         "citation_validation": citation_validation,
+        "citation_coverage": citation_coverage,
+        "grounding": grounding,
     }
