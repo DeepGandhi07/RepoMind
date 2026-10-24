@@ -18,5 +18,6 @@
   "bbebbb066d017e8043ba3b42a5a6bfec6da13f6516093c2ea3d217ab1e1f9071": "get_environ_proxies, should_bypass_proxies, trust_env, merge_environment_settings, rebuild_proxies, HTTP_PROXY, NO_PROXY, getproxies",
   "949edc5865cc38f80cff36ed6a9a4f479a82bcc51a0ab4821d6192d389e2f98e": "Session.mount, mount, get_adapter, HTTPAdapter, BaseAdapter, adapters, prefix, TransportAdapter",
   "c0b89f3c5b7a30b7939caa793a8e802abeb71ba9eb56355f95c01c37c67bd116": "merge_setting, merge_settings, Session.prepare_request, merge_environment_settings, merge_hooks, merge_cookies, sessions.py, PreparedRequest",
-  "a72ba5247179f981cb207b88e7be6869e739220caae39329beba6043d8a736e7": "Response.history, history, resolve_redirects, Response, SessionRedirectMixin, rebuild_method"
+  "a72ba5247179f981cb207b88e7be6869e739220caae39329beba6043d8a736e7": "Response.history, history, resolve_redirects, Response, SessionRedirectMixin, rebuild_method",
+  "95f098c9620f1991617e5939e0803110f0c48a4709716493edc887d6558f35a5": "auth, authentication, auth middleware, auth service, JWT, OAuth, auth config, login handler"
 }

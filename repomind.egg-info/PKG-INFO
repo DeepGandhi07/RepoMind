@@ -1,0 +1,198 @@
+Metadata-Version: 2.4
+Name: repomind
+Version: 0.4.0
+Summary: Ask questions about any source repository and get answers that cite the code.
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: langchain
+Requires-Dist: langchain-chroma
+Requires-Dist: langchain-huggingface
+Requires-Dist: langchain-text-splitters
+Requires-Dist: chromadb
+Requires-Dist: sentence-transformers
+Requires-Dist: rank-bm25
+Requires-Dist: google-genai
+Requires-Dist: streamlit>=1.37
+Requires-Dist: requests
+Requires-Dist: python-dotenv
+Provides-Extra: groq
+Requires-Dist: groq; extra == "groq"
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+
+# RepoMind
+
+Ask questions about any source repository and get answers grounded in its code, with file paths and line ranges. A separate check shows whether the retrieved code actually supports each answer.
+
+RepoMind works with any language or text-based project. Language-aware chunking covers about two dozen languages, and everything else uses generic chunking.
+
+## Features
+
+- **Web app** with a chat interface. Analyze several repositories and switch between them.
+- **CLI** for analysis, questions, and repository management. It also accepts local folders.
+- **Any git host.** GitHub, GitLab, Bitbucket, and self-hosted servers over https. Private repositories work with a token.
+- **Safe indexing.** Skips binaries, lockfiles, minified bundles, vendored and build folders, and secret files such as `.env`, keys, and credentials.
+- **Hybrid retrieval.** Semantic search (ChromaDB with local embeddings) and code-aware keyword search, merged with reciprocal rank fusion.
+- **Pluggable model providers.** Gemini or Groq, selected with one setting.
+- **Incremental re-indexing.** Re-analyzing a repository updates only changed chunks and removes deleted files.
+
+## Quick start
+
+Requirements: Python 3.10+, `git` on your PATH, and an API key for Gemini or Groq.
+
+```bash
+git clone https://github.com/<you>/repomind.git
+cd repomind
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\Activate.ps1
+pip install -e ".[groq,dev]"     # drop "groq" if you use Gemini only
+cp .env.example .env             # then fill in your keys
+```
+
+Run the web app:
+
+```bash
+streamlit run streamlit_app.py
+```
+
+Or use the CLI:
+
+```bash
+repomind analyze https://github.com/psf/requests
+repomind ask "How are cookies persisted across redirects?"
+repomind ask "Where is retry logic implemented?" --repo psf/requests -k 8
+repomind repos
+repomind remove psf/requests
+repomind models                  # list models your API key can use
+```
+
+Use it from Python:
+
+```python
+from repomind.service import analyze, ask
+
+analyze("https://github.com/psf/requests")
+result = ask("How does Requests represent case-insensitive headers?", repo="psf/requests")
+print(result["answer"])
+```
+
+## Configuration
+
+Settings are environment variables, read from `.env`.
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `LLM_PROVIDER` | `gemini` | `gemini` or `groq` |
+| `GEMINI_API_KEY` | | Gemini API key |
+| `GEMINI_MODEL` | `gemini-2.5-flash` | Gemini model |
+| `GROQ_API_KEY` | | Groq API key |
+| `GROQ_MODEL` | `llama-3.3-70b-versatile` | Groq model. Run `repomind models` to see yours |
+| `LLM_MODEL` | | Overrides the model for the active provider |
+| `LLM_FALLBACK_MODELS` | | Comma-separated models tried when the main one is busy |
+| `LLM_MAX_RETRIES` | `3` | Retries per model on 429 and 5xx errors |
+| `LLM_RETRY_BASE_DELAY` | `1.5` | First backoff delay, in seconds |
+| `GITHUB_TOKEN` | | Access to private GitHub repositories |
+| `GITLAB_TOKEN` | | Access to private GitLab repositories |
+| `RETRIEVAL_MODE` | `selective` | `hybrid`, `selective`, or `fused` |
+| `USE_QUERY_EXPANSION` | `true` | Allow model-based query expansion |
+| `GROUNDING_CHECK` | `true` | Set `false` to skip the per-answer grounding call |
+| `REPOMIND_MAX_FILES` | `5000` | Maximum indexable files per repository |
+| `REPOMIND_MAX_FILE_BYTES` | `300000` | Larger files are skipped |
+| `REPOMIND_MAX_TOTAL_BYTES` | `30000000` | Total text limit per repository |
+| `REPOMIND_MAX_CHUNKS` | `40000` | Chunk limit per repository |
+| `REPOMIND_CLONE_TIMEOUT` | `300` | Seconds allowed for cloning |
+| `REPOMIND_DATA_DIR` | `./data` | Index and registry location |
+
+### Retrieval modes
+
+- `hybrid`: the original query only. No model calls for retrieval.
+- `selective`: expands the query only when the first results look weak.
+- `fused`: always merges the original and expanded rankings.
+
+## How it works
+
+1. **Fetch.** Remote repositories are cloned with `git clone --depth 1`. Tokens are passed through git configuration, never on the command line.
+2. **Filter.** Files are checked for size, binary content, UTF-8 encoding, minification, and secrets. Generated and vendored folders are skipped.
+3. **Chunk.** Files are split into about 1,000-character chunks with overlap. Each chunk keeps its path, language, kind (code, test, doc, or config), and line range.
+4. **Index.** Chunks are embedded locally with `all-MiniLM-L6-v2` and stored in a per-repository ChromaDB collection.
+5. **Retrieve.** Semantic and keyword rankings are fused. Keyword search splits camelCase and snake_case, so `HTTPBasicAuth` matches "basic auth."
+6. **Answer.** The model answers from the retrieved code only and cites `[path:start-end]`. Citations are checked against the retrieved ranges.
+7. **Check.** A second model call labels each claim as supported, partially supported, unsupported, or insufficient evidence.
+
+## Project layout
+
+```
+repomind/
+├── streamlit_app.py          Web app entry point
+├── repomind/
+│   ├── cli.py                Command-line interface
+│   ├── service.py            Analyze, ask, list, and remove operations
+│   ├── registry.py           Index of analyzed repositories
+│   ├── ingest.py             Clone or read a repository and filter files
+│   ├── languages.py          Language, kind, and skip rules
+│   ├── code_processor.py     Language-aware chunking with line numbers
+│   ├── vector_store.py       ChromaDB sync, tokenizer, hybrid search
+│   ├── query_expander.py     Query expansion with a disk cache
+│   ├── answer_generator.py   Retrieval modes and answer pipeline
+│   ├── citation_validator.py Citation range checks
+│   ├── grounding_checker.py  Claim-level grounding check
+│   ├── llm.py                Provider selection, retries, and fallbacks
+│   ├── config.py             Paths and environment helpers
+│   └── ui/
+│       ├── main.py           Page logic
+│       ├── components.py     Reusable rendering helpers
+│       └── theme.py          Design tokens and styles
+├── tests/                    Offline unit tests
+├── scripts/evaluate_retrieval.py
+├── data/evaluation/          Benchmark questions
+├── data/cache/               Cached query expansions
+└── pyproject.toml
+```
+
+## Development
+
+```bash
+pytest -q
+ruff check .
+```
+
+Tests run offline. They use fake model clients and temporary folders, so they need no API keys and no network. CI runs the tests on Python 3.11 and 3.12, and runs the linter.
+
+Keep changes focused, add tests for behavior changes, and never commit `.env` or the `data/` directory.
+
+## Evaluation
+
+`scripts/evaluate_retrieval.py` measures retrieval against 24 questions about `psf/requests`, with expected source files. Build the index for that repository first. The numbers below were measured on an earlier version of the retrieval code, and they should be re-run before you quote them.
+
+| Strategy | Hit Rate@5 | Mean Recall@5 | MRR |
+|---|---:|---:|---:|
+| Hybrid baseline | 95.83% | 95.83% | 0.8785 |
+| Selective expansion | 95.83% | 91.67% | 0.8958 |
+| Always-fused expansion | 100% | 93.75% | 0.9167 |
+
+```bash
+python scripts/evaluate_retrieval.py
+```
+
+## Troubleshooting
+
+- **"The model ... is not available for this API key."** Model names change. Run `repomind models`, then set `GROQ_MODEL` or `GEMINI_MODEL` to one of those names.
+- **"daily usage limit is reached."** The provider's daily quota for this key is used up. Wait for it to reset, use another key, or switch `LLM_PROVIDER`.
+- **Many `torchvision` messages in the terminal.** Streamlit's file watcher inspects optional `transformers` modules. The messages are harmless. `.streamlit/config.toml` turns the watcher off.
+- **Private repository fails to clone.** Set `GITHUB_TOKEN` or `GITLAB_TOKEN` in `.env`, and make sure the token can read the repository.
+
+## Limitations
+
+- Remote repositories need `git` installed.
+- Very large repositories are slow to embed on a CPU. Limits protect against runaway indexing and can be raised.
+- Re-analysis fetches the whole repository again, even though only changed chunks are re-embedded.
+- Keyword search reads the stored chunks on each query. This is fine for tens of thousands of chunks, not for millions.
+- Chunking is text-based. It keeps functions together in most cases, but it does not parse the syntax tree.
+- The grounding check is a model judgment, not a proof.
+- The web app has no login. Put it behind authentication before sharing it.
+
+## License
+
+Not yet chosen. Add a `LICENSE` file before publishing.

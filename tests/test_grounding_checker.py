@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from src.grounding_checker import check_answer_grounding
+from repomind.grounding_checker import check_answer_grounding
 
 
 class FakeModels:

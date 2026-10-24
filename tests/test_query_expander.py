@@ -1,8 +1,10 @@
-import pytest
-
-from src.query_expander import expand_query
 from types import SimpleNamespace
-import src.query_expander as query_expander
+
+import pytest
+from google import genai as genai_sdk
+
+import repomind.query_expander as query_expander
+from repomind.query_expander import expand_query
 
 QUESTION = "How does Requests represent case-insensitive HTTP headers?"
 
@@ -171,7 +173,7 @@ def test_persistent_cache_reuses_expansion(
         return client
 
     monkeypatch.setattr(
-        query_expander.genai,
+        genai_sdk,
         "Client",
         fake_client_factory,
     )

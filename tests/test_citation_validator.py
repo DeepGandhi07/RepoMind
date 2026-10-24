@@ -1,4 +1,4 @@
-from src.citation_validator import validate_citations
+from repomind.citation_validator import validate_citations
 
 SOURCES = [
     {

@@ -1,4 +1,4 @@
-from src.citation_validator import calculate_citation_coverage
+from repomind.citation_validator import calculate_citation_coverage
 
 
 def test_all_prose_blocks_have_citations():

@@ -1,6 +1,6 @@
 from langchain_core.documents import Document
 
-from src.vector_store import index_code_chunks
+from repomind.vector_store import index_code_chunks
 
 
 class FakeVectorStore:
@@ -25,7 +25,7 @@ class FakeVectorStore:
         }
 
     def add_documents(self, documents, ids):
-        for document, chunk_id in zip(documents, ids):
+        for document, chunk_id in zip(documents, ids, strict=True):
             self.records[chunk_id] = {
                 "document": document.page_content,
                 "metadata": document.metadata,
@@ -46,7 +46,6 @@ def make_chunk(source, content, start_index=0):
 def test_deleted_file_chunks_are_removed():
     store = FakeVectorStore()
 
-    # Simulate an existing index containing two files.
     index_code_chunks(
         [
             make_chunk("src/a.py", "print('a')"),
@@ -56,7 +55,6 @@ def test_deleted_file_chunks_are_removed():
         current_sources={"src/a.py", "src/deleted.py"},
     )
 
-    # The second file has disappeared from the repository.
     index_code_chunks(
         [make_chunk("src/a.py", "print('a')")],
         store,

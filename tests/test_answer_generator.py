@@ -1,8 +1,11 @@
-from langchain_core.documents import Document
-from src.answer_generator import build_context
 from types import SimpleNamespace
-import src.answer_generator as answer_generator
-import src.query_expander as query_expander
+
+from google import genai as genai_sdk
+from langchain_core.documents import Document
+
+import repomind.answer_generator as answer_generator
+import repomind.query_expander as query_expander
+from repomind.answer_generator import build_context
 
 
 def test_context_includes_file_and_line_range():
@@ -113,7 +116,7 @@ def test_answer_question_uses_expanded_query_for_retrieval(monkeypatch):
         fake_search_code,
     )
     monkeypatch.setattr(
-        answer_generator.genai,
+        genai_sdk,
         "Client",
         FakeClient,
     )
@@ -205,7 +208,7 @@ def test_answer_generation_receives_original_question(monkeypatch):
             self.models = FakeModels()
 
     monkeypatch.setattr(
-        answer_generator.genai,
+        genai_sdk,
         "Client",
         FakeClient,
     )
@@ -265,7 +268,7 @@ def test_strong_match_skips_query_expansion(monkeypatch):
             (_ for _ in ()).throw(AssertionError("Expansion should be skipped"))
         ),
     )
-    monkeypatch.setattr(answer_generator.genai, "Client", FakeClient)
+    monkeypatch.setattr(genai_sdk, "Client", FakeClient)
     monkeypatch.setattr(
         answer_generator,
         "check_answer_grounding",
@@ -321,7 +324,7 @@ def test_weak_match_retries_with_expanded_query(monkeypatch):
             self.models = FakeModels()
 
     monkeypatch.setattr(answer_generator, "search_code", fake_search_code)
-    monkeypatch.setattr(answer_generator.genai, "Client", FakeClient)
+    monkeypatch.setattr(genai_sdk, "Client", FakeClient)
     monkeypatch.setattr(
         answer_generator,
         "check_answer_grounding",
@@ -382,7 +385,7 @@ def test_repeated_weak_query_uses_cached_expansion(
             self.models = FakeModels()
 
     monkeypatch.setattr(answer_generator, "search_code", fake_search_code)
-    monkeypatch.setattr(answer_generator.genai, "Client", FakeClient)
+    monkeypatch.setattr(genai_sdk, "Client", FakeClient)
     monkeypatch.setattr(
         answer_generator,
         "expand_query",

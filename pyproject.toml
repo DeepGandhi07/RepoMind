@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "repomind"
+version = "0.4.0"
+description = "Ask questions about any source repository and get answers that cite the code."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "langchain",
+    "langchain-chroma",
+    "langchain-huggingface",
+    "langchain-text-splitters",
+    "chromadb",
+    "sentence-transformers",
+    "rank-bm25",
+    "google-genai",
+    "streamlit>=1.37",
+    "requests",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+groq = ["groq"]
+dev = ["pytest", "ruff"]
+
+[project.scripts]
+repomind = "repomind.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["repomind*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]

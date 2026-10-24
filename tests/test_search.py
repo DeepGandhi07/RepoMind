@@ -1,7 +1,7 @@
 import pytest
 from langchain_core.documents import Document
 
-from src.vector_store import search_code
+from repomind.vector_store import search_code
 
 
 class FakeVectorStore:
