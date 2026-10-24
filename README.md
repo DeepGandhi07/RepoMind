@@ -98,10 +98,6 @@ repomind repos           # list analyzed repositories
 
 For the command line, copy `.env.example` to `.env`, then set `LLM_PROVIDER` and your key.
 
-## Configuration
-
-Most people don't need to change anything. Settings such as keys, models, and limits are listed in [docs/CONFIGURATION.md](docs/CONFIGURATION.md).
-
 ## Privacy
 
 - **What is sent to the model provider:** your question and the code chunks retrieved for it. Analysis runs on your machine or server, so repository contents are not uploaded for indexing.
