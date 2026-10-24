@@ -1,10 +1,8 @@
 from langchain_core.documents import Document
-
 from src.answer_generator import build_context
-
 from types import SimpleNamespace
-
 import src.answer_generator as answer_generator
+import src.query_expander as query_expander
 
 
 def test_context_includes_file_and_line_range():
@@ -222,3 +220,185 @@ def test_answer_generation_receives_original_question(monkeypatch):
     assert len(captured_prompts) == 1
     assert f"User question:\n{question}" in captured_prompts[0]
     assert expanded_query not in captured_prompts[0]
+
+
+def test_strong_match_skips_query_expansion(monkeypatch):
+    question = "authentication token header"
+    retrieved_queries = []
+
+    fake_document = SimpleNamespace(
+        page_content="Authentication token header is used for API requests.",
+        metadata={
+            "source": "src/example.py",
+            "start_line": 1,
+            "end_line": 5,
+            "start_index": 0,
+        },
+    )
+
+    monkeypatch.setattr(answer_generator, "USE_QUERY_EXPANSION", True)
+    monkeypatch.setattr(
+        answer_generator,
+        "should_expand_query",
+        lambda question, documents: False,
+    )
+
+    def fake_search_code(query, vector_store, k):
+        retrieved_queries.append(query)
+        return [fake_document]
+
+    class FakeModels:
+        def generate_content(self, model, contents):
+            return SimpleNamespace(
+                text="Authentication uses a token header [src/example.py:1-5]."
+            )
+
+    class FakeClient:
+        def __init__(self):
+            self.models = FakeModels()
+
+    monkeypatch.setattr(answer_generator, "search_code", fake_search_code)
+    monkeypatch.setattr(
+        answer_generator,
+        "expand_query",
+        lambda query: (
+            (_ for _ in ()).throw(AssertionError("Expansion should be skipped"))
+        ),
+    )
+    monkeypatch.setattr(answer_generator.genai, "Client", FakeClient)
+    monkeypatch.setattr(
+        answer_generator,
+        "check_answer_grounding",
+        lambda **kwargs: {"status": "supported"},
+    )
+
+    answer_generator.answer_question(question, vector_store=object())
+
+    assert retrieved_queries == [question]
+
+
+def test_weak_match_retries_with_expanded_query(monkeypatch):
+    question = "How does Requests represent case-insensitive HTTP headers?"
+    expanded_query = (
+        question + "\nRelated terminology: " "CaseInsensitiveDict, lowercase keys"
+    )
+    retrieved_queries = []
+
+    weak_document = SimpleNamespace(
+        page_content="Network timeout retry session connection.",
+        metadata={
+            "source": "src/example.py",
+            "start_line": 1,
+            "end_line": 5,
+            "start_index": 0,
+        },
+    )
+
+    monkeypatch.setattr(answer_generator, "USE_QUERY_EXPANSION", True)
+    monkeypatch.setattr(
+        answer_generator,
+        "should_expand_query",
+        lambda question, documents: True,
+    )
+    monkeypatch.setattr(
+        answer_generator,
+        "expand_query",
+        lambda query: expanded_query,
+    )
+
+    def fake_search_code(query, vector_store, k):
+        retrieved_queries.append(query)
+        return [weak_document]
+
+    class FakeModels:
+        def generate_content(self, model, contents):
+            return SimpleNamespace(
+                text="The mapping is case-insensitive [src/example.py:1-5]."
+            )
+
+    class FakeClient:
+        def __init__(self):
+            self.models = FakeModels()
+
+    monkeypatch.setattr(answer_generator, "search_code", fake_search_code)
+    monkeypatch.setattr(answer_generator.genai, "Client", FakeClient)
+    monkeypatch.setattr(
+        answer_generator,
+        "check_answer_grounding",
+        lambda **kwargs: {"status": "supported"},
+    )
+
+    answer_generator.answer_question(question, vector_store=object())
+
+    assert retrieved_queries == [question, expanded_query]
+
+
+def test_repeated_weak_query_uses_cached_expansion(
+    monkeypatch,
+    tmp_path,
+):
+    question = "How does Requests represent case-insensitive HTTP headers?"
+    retrieved_queries = []
+    expansion_api_calls = []
+
+    monkeypatch.setattr(
+        query_expander,
+        "CACHE_PATH",
+        tmp_path / "query_expansions.json",
+    )
+    monkeypatch.setattr(answer_generator, "USE_QUERY_EXPANSION", True)
+    monkeypatch.setattr(
+        answer_generator,
+        "should_expand_query",
+        lambda question, documents: True,
+    )
+
+    fake_document = SimpleNamespace(
+        page_content="Network timeout retry session connection.",
+        metadata={
+            "source": "src/example.py",
+            "start_line": 1,
+            "end_line": 5,
+            "start_index": 0,
+        },
+    )
+
+    def fake_search_code(query, vector_store, k):
+        retrieved_queries.append(query)
+        return [fake_document]
+
+    class FakeModels:
+        def generate_content(self, model, contents):
+            if "Generate up to 8 concise technical search terms" in contents:
+                expansion_api_calls.append(contents)
+                return SimpleNamespace(text="CaseInsensitiveDict, lowercase keys")
+
+            return SimpleNamespace(
+                text="The mapping is case-insensitive [src/example.py:1-5]."
+            )
+
+    class FakeClient:
+        def __init__(self):
+            self.models = FakeModels()
+
+    monkeypatch.setattr(answer_generator, "search_code", fake_search_code)
+    monkeypatch.setattr(answer_generator.genai, "Client", FakeClient)
+    monkeypatch.setattr(
+        answer_generator,
+        "expand_query",
+        query_expander.expand_query,
+    )
+    monkeypatch.setattr(
+        answer_generator,
+        "check_answer_grounding",
+        lambda **kwargs: {"status": "supported"},
+    )
+
+    answer_generator.answer_question(question, vector_store=object())
+    answer_generator.answer_question(question, vector_store=object())
+
+    assert len(retrieved_queries) == 4
+    assert retrieved_queries[0] == question
+    assert retrieved_queries[2] == question
+    assert retrieved_queries[1] == retrieved_queries[3]
+    assert len(expansion_api_calls) == 1

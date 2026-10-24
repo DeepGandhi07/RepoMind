@@ -45,6 +45,25 @@ def _write_cache(cache: dict) -> None:
         print(f"Could not save query cache: {exc}")
 
 
+def expand_query_from_cache(
+    question: str,
+    model: str = GEMINI_MODEL,
+) -> str:
+    """Return a cached expansion without making any API calls."""
+    if not question.strip():
+        raise ValueError("Question cannot be empty.")
+
+    cache = _read_cache()
+    key = _cache_key(question, model)
+    cached_terms = cache.get(key)
+
+    if isinstance(cached_terms, str) and cached_terms.strip():
+        return f"{question}\nRelated terminology: {cached_terms}"
+
+    # Cache miss: safely keep the original question.
+    return question
+
+
 def expand_query(
     question: str,
     client=None,
@@ -122,8 +141,7 @@ def should_expand_query(
     documents: list,
     min_overlap: float = 0.4,
 ) -> bool:
-    """Return True when retrieved chunks have weak lexical overlap."""
-
+    """Trigger expansion when lexical overlap is weak or results lack source diversity."""
     stop_words = {
         "a",
         "an",
@@ -162,13 +180,22 @@ def should_expand_query(
     if not question_tokens or not documents:
         return True
 
-    best_overlap = 0.0
+    best_overlap = max(
+        (
+            len(question_tokens & tokens(document.page_content)) / len(question_tokens)
+            for document in documents
+        ),
+        default=0.0,
+    )
 
-    for document in documents:
-        content = document.page_content
-        document_tokens = tokens(content)
+    # Repeated chunks from the same source can crowd out other relevant files.
+    sources = {
+        source
+        for document in documents
+        for source in [getattr(document, "metadata", {}).get("source", "")]
+        if source
+    }
 
-        overlap = len(question_tokens & document_tokens) / len(question_tokens)
-        best_overlap = max(best_overlap, overlap)
+    low_source_diversity = len(sources) <= 3 and len(documents) >= 5
 
-    return best_overlap < min_overlap
+    return best_overlap < min_overlap or low_source_diversity

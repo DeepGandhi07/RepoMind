@@ -1,15 +1,14 @@
 import os
 from pathlib import Path
+from src.query_expander import expand_query, should_expand_query
 from src.citation_validator import validate_citations
 from dotenv import load_dotenv
 from google import genai
 from src.grounding_checker import check_answer_grounding
-from src.vector_store import search_code
 from src.citation_validator import (
     validate_citations,
     calculate_citation_coverage,
 )
-from src.query_expander import expand_query, should_expand_query
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(PROJECT_ROOT / ".env")
@@ -21,6 +20,13 @@ USE_QUERY_EXPANSION = os.getenv("USE_QUERY_EXPANSION", "true").lower() in {
     "yes",
     "on",
 }
+
+
+def search_code(*args, **kwargs):
+    """Lazily import and call the code search implementation."""
+    from src.vector_store import search_code as _search_code
+
+    return _search_code(*args, **kwargs)
 
 
 def build_context(documents) -> str:
@@ -63,7 +69,6 @@ def answer_question(
 
     # 1. Expand the search query, then retrieve relevant code.
     retrieval_query = question
-
     # Always try normal retrieval first.
     documents = search_code(
         query=question,
